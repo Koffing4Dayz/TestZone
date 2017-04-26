@@ -1,38 +1,34 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace S3
+namespace Player
 {
     public class Player_DetectItem : MonoBehaviour
     {
-        //rework
-        [Tooltip("What layer is being used for items.")]
-        public LayerMask layerToDetect;
-        [Tooltip("What transform will the ray be fired from?")]
-        public Transform rayTransformPivot;
-        [Tooltip("The editor input button that will be uses for picking up items.")]
-        public string buttonPickup;
+        public LayerMask ItemLayer;
+        public Transform RayTransform;
+        public string MappedKey;
 
-        Transform itemAvailableForPickup;
-        RaycastHit hit;
-        float detectRange = 3;
-        float detectRadius = 0.7f;
-        bool itemInRange;
+        private Transform activeItem;
+        private RaycastHit hit;
+        private bool itemInRange;
 
-        float labelWidth = 200;
-        float labelHeight = 50;
+        public float DetectRange = 3;
+        public float DetectRadius = 0.7f;
+        public float LabelWidth = 200;
+        public float LabelHeight = 50;
 
         void Update()
         {
-            CastRayForDetectingItems();
-            CheckForItemPickupAttempt();
+            DetectItems();
+            CheckPickupAttempt();
         }
 
-        void CastRayForDetectingItems()
+        void DetectItems()
         {
-            if (Physics.SphereCast(rayTransformPivot.position,detectRadius,rayTransformPivot.forward,out hit,detectRange,layerToDetect))
+            if (Physics.SphereCast(RayTransform.position, DetectRadius, RayTransform.forward, out hit, DetectRange, ItemLayer))
             {
-                itemAvailableForPickup = hit.transform;
+                activeItem = hit.transform;
                 itemInRange = true;
             }
             else
@@ -41,9 +37,9 @@ namespace S3
             }
         }
 
-        void CheckForItemPickupAttempt()
+        void CheckPickupAttempt()
         {
-            if (Input.GetButtonDown(buttonPickup) && Time.timeScale > 0 && itemInRange && itemAvailableForPickup.root.tag != GameManager.GameManager_References.Instance.PlayerTag)
+            if (Input.GetButtonDown(MappedKey) && Time.timeScale > 0 && itemInRange && activeItem.root.tag != GameManager.GameManager_References.Instance.PlayerTag)
             {
                 Debug.Log("Pickup attempted");
                 //itemAvailableForPickup.GetComponent<Item_Master>().CallEventPickUpAction(rayTransformPivot);
@@ -52,9 +48,9 @@ namespace S3
 
         void OnGUI()
         {
-            if (itemInRange && itemAvailableForPickup != null)
+            if (itemInRange && activeItem != null)
             {
-                GUI.Label(new Rect(Screen.width / 2 - labelWidth / 2,Screen.height / 2,labelWidth,labelHeight),itemAvailableForPickup.name);
+                GUI.Label(new Rect(Screen.width / 2 - LabelWidth / 2,Screen.height / 2,LabelWidth,LabelHeight),activeItem.name);
             }
         }
     }

@@ -1,11 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace S3
+namespace Player
 {
     public class Player_Master : MonoBehaviour
     {
-
         public delegate void GeneralEventHandler();
         public event GeneralEventHandler EventInventoryChanged;
         public event GeneralEventHandler EventHandsEmpty;
@@ -14,7 +13,7 @@ namespace S3
         public delegate void AmmoPickupEventHandler(string ammoName,int quantity);
         public event AmmoPickupEventHandler EventPickedUpAmmo;
 
-        public delegate void PlayerHealthEventHandler(int healthChange);
+        public delegate void PlayerHealthEventHandler(int amount);
         public event PlayerHealthEventHandler EventPlayerHealthDeduction;
         public event PlayerHealthEventHandler EventPlayerHealthIncrease;
 
@@ -46,23 +45,23 @@ namespace S3
         {
             if (EventPickedUpAmmo != null)
             {
-                EventPickedUpAmmo(ammoName,quantity);
+                EventPickedUpAmmo(ammoName, quantity);
             }
         }
 
-        public void CallEventPlayerHealthDeduction(int dmg)
+        public void CallEventPlayerHealthDeduction(int amount)
         {
             if (EventPlayerHealthDeduction != null)
             {
-                EventPlayerHealthDeduction(dmg);
+                EventPlayerHealthDeduction(amount);
             }
         }
 
-        public void CallEventPlayerHealthIncrease(int increase)
+        public void CallEventPlayerHealthIncrease(int amount)
         {
             if (EventPlayerHealthIncrease != null)
             {
-                EventPlayerHealthIncrease(increase);
+                EventPlayerHealthIncrease(amount);
             }
         }
     }

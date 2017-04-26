@@ -1,45 +1,44 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace S3
+namespace Player
 {
     public class Player_CanvasHurt : MonoBehaviour
     {
-        public GameObject hurtCanvas;
-        Player_Master playerMaster;
-        float secondsTillHide = 2;
+        public GameObject HurtCanvas;
+        private Player_Master MasterPlayer;
+        public float Duration = 2;
 
         void OnEnable()
         {
             Initialize();
-            playerMaster.EventPlayerHealthDeduction += TurnOnHurtEffect;
+            MasterPlayer.EventPlayerHealthDeduction += TurnOnHurtEffect;
         }
 
         void OnDisable()
         {
-            playerMaster.EventPlayerHealthDeduction -= TurnOnHurtEffect;
-
+            MasterPlayer.EventPlayerHealthDeduction -= TurnOnHurtEffect;
         }
 
         void Initialize()
         {
-            playerMaster = GetComponent<Player_Master>();
+            MasterPlayer = GetComponent<Player_Master>();
         }
 
         void TurnOnHurtEffect(int dummy)
         {
-            if (hurtCanvas != null)
+            if (HurtCanvas != null)
             {
                 StopAllCoroutines();
-                hurtCanvas.SetActive(true);
+                HurtCanvas.SetActive(true);
                 StartCoroutine(ResetHurtCanvas());
             }
         }
 
         IEnumerator ResetHurtCanvas()
         {
-            yield return new WaitForSeconds(secondsTillHide);
-            hurtCanvas.SetActive(false);
+            yield return new WaitForSeconds(Duration);
+            HurtCanvas.SetActive(false);
         }
     }
 }

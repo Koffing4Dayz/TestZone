@@ -2,12 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace S3
+namespace Player
 {
     public class Player_AmmoBox : MonoBehaviour
     {
-        //Rework probally
-        Player_Master playerMaster;
+        private Player_Master MasterPlayer;
 
         [System.Serializable]
         public class AmmoTypes
@@ -29,18 +28,18 @@ namespace S3
         void OnEnable()
         {
             Initialize();
-            playerMaster.EventPickedUpAmmo += PickedUpAmmo;
+            MasterPlayer.EventPickedUpAmmo += PickedUpAmmo;
         }
 
         void OnDisable()
         {
-            playerMaster.EventPickedUpAmmo -= PickedUpAmmo;
+            MasterPlayer.EventPickedUpAmmo -= PickedUpAmmo;
 
         }
 
         void Initialize()
         {
-            playerMaster = GetComponent<Player_Master>();
+            MasterPlayer = GetComponent<Player_Master>();
         }
 
         void PickedUpAmmo(string ammoName,int quantity)
@@ -55,7 +54,7 @@ namespace S3
                 {
                     typesOfAmmunition[i].ammoCurrentCarried = typesOfAmmunition[i].ammoMaxQuantity;
                 }
-                playerMaster.CallEventAmmoChanged();
+                MasterPlayer.CallEventAmmoChanged();
                 break;
             }
         }

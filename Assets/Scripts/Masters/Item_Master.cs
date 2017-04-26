@@ -5,7 +5,7 @@ namespace S3
 {
     public class Item_Master : MonoBehaviour
     {
-        Player_Master playerMaster;
+        Player.Player_Master playerMaster;
         
         public delegate void GeneralEventHandler();
         public event GeneralEventHandler EventObjectThrow;
@@ -50,7 +50,7 @@ namespace S3
         {
             if(GameManager.GameManager_References.Instance.Player != null)
             {
-                playerMaster = GameManager.GameManager_References.Instance.Player.GetComponent<Player_Master>();
+                playerMaster = GameManager.GameManager_References.Instance.Player.GetComponent<Player.Player_Master>();
             }
         }
     }

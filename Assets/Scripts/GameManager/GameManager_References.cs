@@ -14,7 +14,8 @@ namespace GameManager
             {
                 if (TheInstance == null)
                 {
-                    TheInstance = new GameManager_References();
+                    //TheInstance = new GameManager_References();
+                    TheInstance = FindObjectOfType<GameManager_References>();
                     TheInstance.Initialize();
                 }
 
@@ -73,13 +74,14 @@ namespace GameManager
         {
             get
             {
-                return MasterGameManager;
+                return TheMasterGameManager;
             }
         }
 
         void Awake()
         {
             TheInstance = this;
+            Initialize();
         }
 
         private void Initialize()

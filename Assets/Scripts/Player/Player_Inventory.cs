@@ -3,21 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-namespace S3
+namespace Player
 {
     public class Player_Inventory : MonoBehaviour
     {
         public Transform inventoryPlayerParent;
         public Transform inventoryUIParent;
         public GameObject uiButton;
+        public float placeDelay = 0.1f;
 
-        Player_Master playerMaster;
-        GameManager.GameManager_ToggleInventoryUI inventoryUIScript;
-        float timeToPlaceInHands = 0.1f;
-        Transform currentlyHeldItem;
-        int counter;
-        string buttonText;
-        List<Transform> listInventory = new List<Transform>();
+        private Player_Master MasterPlayer;
+        private GameManager.GameManager_ToggleInventoryUI inventoryUIScript;
+        private Transform activeItem;
+        private int counter;
+        private string buttonText;
+        private List<Transform> listInventory = new List<Transform>();
 
         void OnEnable()
         {
@@ -25,22 +25,22 @@ namespace S3
             UpdateInventoryListAndUI();
             CheckIfHandsEmpty();
 
-            playerMaster.EventInventoryChanged += UpdateInventoryListAndUI;
-            playerMaster.EventInventoryChanged += CheckIfHandsEmpty;
-            playerMaster.EventHandsEmpty += ClearHands;
+            MasterPlayer.EventInventoryChanged += UpdateInventoryListAndUI;
+            MasterPlayer.EventInventoryChanged += CheckIfHandsEmpty;
+            MasterPlayer.EventHandsEmpty += ClearHands;
         }
 
         void OnDisable()
         {
-            playerMaster.EventInventoryChanged -= UpdateInventoryListAndUI;
-            playerMaster.EventInventoryChanged -= CheckIfHandsEmpty;
-            playerMaster.EventHandsEmpty -= ClearHands;
+            MasterPlayer.EventInventoryChanged -= UpdateInventoryListAndUI;
+            MasterPlayer.EventInventoryChanged -= CheckIfHandsEmpty;
+            MasterPlayer.EventHandsEmpty -= ClearHands;
         }
 
         void Initialize()
         {
             inventoryUIScript = GameObject.Find("GameManager").GetComponent<GameManager.GameManager_ToggleInventoryUI>();
-            playerMaster = GetComponent<Player_Master>();
+            MasterPlayer = GetComponent<Player_Master>();
         }
 
         void UpdateInventoryListAndUI()
@@ -70,7 +70,7 @@ namespace S3
 
         void CheckIfHandsEmpty()
         {
-            if (currentlyHeldItem == null && listInventory.Count > 0)
+            if (activeItem == null && listInventory.Count > 0)
             {
                 StartCoroutine(PlaceItemInHands(listInventory[listInventory.Count - 1]));
             }
@@ -78,7 +78,7 @@ namespace S3
 
         void ClearHands()
         {
-            currentlyHeldItem = null;
+            activeItem = null;
         }
 
         void ClearInventoryUI()
@@ -108,9 +108,9 @@ namespace S3
 
         IEnumerator PlaceItemInHands(Transform itemTransform)
         {
-            yield return new WaitForSeconds(timeToPlaceInHands);
-            currentlyHeldItem = itemTransform;
-            currentlyHeldItem.gameObject.SetActive(true);
+            yield return new WaitForSeconds(placeDelay);
+            activeItem = itemTransform;
+            activeItem.gameObject.SetActive(true);
         }
     }
 }

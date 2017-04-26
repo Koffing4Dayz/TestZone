@@ -5,7 +5,6 @@ namespace GameManager
 {
     public class GameManager_Master : MonoBehaviour
     {
-
         public delegate void GameManagerEventHandler();
         public event GameManagerEventHandler EventMenuToggle;
         public event GameManagerEventHandler EventInventoryUIToggle;

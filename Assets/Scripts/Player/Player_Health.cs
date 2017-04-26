@@ -2,53 +2,41 @@
 using UnityEngine.UI;
 using System.Collections;
 
-namespace S3
+namespace Player
 {
     public class Player_Health : MonoBehaviour
     {
-        Player_Master playerMaster;
-        public int playerHealth;
-        public Text healthText;
+        private Player_Master MasterPlayer;
+        public int PlayerHealth;
+        public Text HealthText;
 
         void OnEnable()
         {
             Initialize();
             SetUI();
-            playerMaster.EventPlayerHealthDeduction += DeductHealth;
-            playerMaster.EventPlayerHealthIncrease += IncreaseHealth;
+            MasterPlayer.EventPlayerHealthDeduction += DeductHealth;
+            MasterPlayer.EventPlayerHealthIncrease += IncreaseHealth;
         }
 
         void OnDisable()
         {
-            playerMaster.EventPlayerHealthDeduction -= DeductHealth;
-            playerMaster.EventPlayerHealthIncrease -= IncreaseHealth;
+            MasterPlayer.EventPlayerHealthDeduction -= DeductHealth;
+            MasterPlayer.EventPlayerHealthIncrease -= IncreaseHealth;
 
-        }
-
-        void Start()
-        {
-            StartCoroutine(TestHealthDeduction());
         }
 
         void Initialize()
         {
-            playerMaster = GetComponent<Player_Master>();
-        }
-
-        IEnumerator TestHealthDeduction()
-        {
-            yield return new WaitForSeconds(2);
-            //DeductHealth(100);
-            //playerMaster.CallEventPlayerHealthDeduction(50);
+            MasterPlayer = GetComponent<Player_Master>();
         }
 
         void DeductHealth(int healthChange)
         {
-            playerHealth -= healthChange;
+            PlayerHealth -= healthChange;
 
-            if (playerHealth <= 0)
+            if (PlayerHealth <= 0)
             {
-                playerHealth = 0;
+                PlayerHealth = 0;
                 GameManager.GameManager_References.Instance.MasterGameManager.CallEventGameOver();
             }
 
@@ -57,11 +45,11 @@ namespace S3
 
         void IncreaseHealth(int healthChange)
         {
-            playerHealth += healthChange;
+            PlayerHealth += healthChange;
 
-            if (playerHealth > 100)
+            if (PlayerHealth > 100)
             {
-                playerHealth = 100;
+                PlayerHealth = 100;
             }
 
             SetUI();
@@ -69,9 +57,9 @@ namespace S3
 
         void SetUI()
         {
-            if (healthText != null)
+            if (HealthText != null)
             {
-                healthText.text = playerHealth.ToString();
+                HealthText.text = PlayerHealth.ToString();
             }
         }
     }
