@@ -14,7 +14,6 @@ namespace GameManager
             {
                 if (TheInstance == null)
                 {
-                    //TheInstance = new GameManager_References();
                     TheInstance = FindObjectOfType<GameManager_References>();
                     TheInstance.Initialize();
                 }
@@ -60,12 +59,43 @@ namespace GameManager
             }
         }
 
+        [SerializeField]
+        private string pickupLayer;
+        private static LayerMask ThePickupLayer;
+        public LayerMask PickupLayer
+        {
+            get
+            {
+                return ThePickupLayer;
+            }
+        }
+
+        [SerializeField]
+        private string holdLayer;
+        private static LayerMask TheHoldLayer;
+        public LayerMask HoldLayer
+        {
+            get
+            {
+                return TheHoldLayer;
+            }
+        }
+
         private static GameObject ThePlayer;
         public GameObject Player
         {
             get
             {
                 return ThePlayer;
+            }
+        }
+
+        private static Player.Player_Master TheMasterPlayer;
+        public Player.Player_Master MasterPlayer
+        {
+            get
+            {
+                return TheMasterPlayer;
             }
         }
 
@@ -98,12 +128,26 @@ namespace GameManager
             {
                 Debug.LogWarning("[GameManager_References] - item tag not set");
             }
+            if (pickupLayer == "")
+            {
+                Debug.LogWarning("[GameManager_References] - pickup layer not set (using defult: Item)");
+                pickupLayer = "Item";
+            }
+            if (holdLayer == "")
+            {
+                Debug.LogWarning("[GameManager_References] - hold layer not set (using defult: Weapon)");
+                holdLayer = "Weapon";
+            }
 
             ThePlayerTag = playerTag;
             TheEnemyTag = enemyTag;
             TheItemTag = itemTag;
 
+            ThePickupLayer = LayerMask.NameToLayer(pickupLayer);
+            TheHoldLayer = LayerMask.NameToLayer(holdLayer);
+
             ThePlayer = GameObject.FindGameObjectWithTag(ThePlayerTag);
+            TheMasterPlayer = ThePlayer.GetComponent<Player.Player_Master>();
 
             TheMasterGameManager = GetComponent<GameManager_Master>();
         }

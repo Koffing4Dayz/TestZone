@@ -11,6 +11,7 @@ namespace Player
         public Transform inventoryUIParent;
         public GameObject uiButton;
         public float placeDelay = 0.1f;
+        public Vector3 HandOffset;
 
         private Player_Master MasterPlayer;
         private GameManager.GameManager_ToggleInventoryUI inventoryUIScript;
@@ -19,7 +20,7 @@ namespace Player
         private string buttonText;
         private List<Transform> listInventory = new List<Transform>();
 
-        void OnEnable()
+        private void OnEnable()
         {
             Initialize();
             UpdateInventoryListAndUI();
@@ -30,20 +31,20 @@ namespace Player
             MasterPlayer.EventHandsEmpty += ClearHands;
         }
 
-        void OnDisable()
+        private void OnDisable()
         {
             MasterPlayer.EventInventoryChanged -= UpdateInventoryListAndUI;
             MasterPlayer.EventInventoryChanged -= CheckIfHandsEmpty;
             MasterPlayer.EventHandsEmpty -= ClearHands;
         }
 
-        void Initialize()
+        private void Initialize()
         {
             inventoryUIScript = GameObject.Find("GameManager").GetComponent<GameManager.GameManager_ToggleInventoryUI>();
             MasterPlayer = GetComponent<Player_Master>();
         }
 
-        void UpdateInventoryListAndUI()
+        private void UpdateInventoryListAndUI()
         {
             counter = 0;
             listInventory.Clear();
@@ -68,34 +69,13 @@ namespace Player
             }
         }
 
-        void CheckIfHandsEmpty()
-        {
-            if (activeItem == null && listInventory.Count > 0)
-            {
-                StartCoroutine(PlaceItemInHands(listInventory[listInventory.Count - 1]));
-            }
-        }
-
-        void ClearHands()
-        {
-            activeItem = null;
-        }
-
-        void ClearInventoryUI()
-        {
-            foreach (Transform child in inventoryUIParent)
-            {
-                Destroy(child.gameObject);
-            }
-        }
-
         public void ActivateInventoryItem(int inventoryIndex)
         {
             DeactivateAllInventoryItems();
             StartCoroutine(PlaceItemInHands(listInventory[inventoryIndex]));
         }
 
-        void DeactivateAllInventoryItems()
+        private void DeactivateAllInventoryItems()
         {
             foreach (Transform child in inventoryPlayerParent)
             {
@@ -106,7 +86,28 @@ namespace Player
             }
         }
 
-        IEnumerator PlaceItemInHands(Transform itemTransform)
+        private void ClearInventoryUI()
+        {
+            foreach (Transform child in inventoryUIParent)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+
+        private void CheckIfHandsEmpty()
+        {
+            if (activeItem == null && listInventory.Count > 0)
+            {
+                StartCoroutine(PlaceItemInHands(listInventory[0]));
+            }
+        }
+
+        private void ClearHands()
+        {
+            activeItem = null;
+        }
+
+        private IEnumerator PlaceItemInHands(Transform itemTransform)
         {
             yield return new WaitForSeconds(placeDelay);
             activeItem = itemTransform;

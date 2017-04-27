@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace S3
+namespace Item
 {
     public class Item_Master : MonoBehaviour
     {
-        Player.Player_Master playerMaster;
+        Player.Player_Master MasterPlayer;
         
         public delegate void GeneralEventHandler();
         public event GeneralEventHandler EventObjectThrow;
@@ -24,9 +24,9 @@ namespace S3
             if(EventObjectThrow != null)
             {
                 EventObjectThrow();
-                playerMaster.CallEventHandsEmpty();
-                playerMaster.CallEventInventoryChanged();
             }
+            MasterPlayer.CallEventHandsEmpty();
+            MasterPlayer.CallEventInventoryChanged();
         }
 
         public void CallEventObjectPickup()
@@ -34,8 +34,8 @@ namespace S3
             if (EventObjectPickup != null)
             {
                 EventObjectPickup();
-                playerMaster.CallEventInventoryChanged();
             }
+            MasterPlayer.CallEventInventoryChanged();
         }
 
         public void CallEventPickupAction(Transform item)
@@ -50,7 +50,7 @@ namespace S3
         {
             if(GameManager.GameManager_References.Instance.Player != null)
             {
-                playerMaster = GameManager.GameManager_References.Instance.Player.GetComponent<Player.Player_Master>();
+                MasterPlayer = GameManager.GameManager_References.Instance.MasterPlayer;
             }
         }
     }

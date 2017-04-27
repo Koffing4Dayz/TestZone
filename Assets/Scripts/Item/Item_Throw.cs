@@ -1,18 +1,18 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace S3
+namespace Item
 {
     public class Item_Throw : MonoBehaviour
     {
-        Item_Master itemMaster;
-        Transform myTransform;
-        Rigidbody myRigidbody;
-        Vector3 throwDirection;
+        private Item_Master MasterItem;
+        private Transform myTransform;
+        private Rigidbody myRigidbody;
+        private Vector3 throwDirection;
 
-        public bool canBeThrown;
-        public string throwButtonName;
-        public float throwForce;
+        public bool CanThrow = true;
+        public string KeyBind = "Throw";
+        public float ThrowForce = 500;
 
         void Start()
         {
@@ -26,16 +26,16 @@ namespace S3
 
         void Initialize()
         {
-            itemMaster = GetComponent<Item_Master>();
+            MasterItem = GetComponent<Item_Master>();
             myTransform = transform;
             myRigidbody = GetComponent<Rigidbody>();
         }
 
         void CheckForThrowInput()
         {
-            if(throwButtonName != null)
+            if(KeyBind != null)
             {
-                if(Input.GetButtonDown(throwButtonName) && Time.timeScale > 0 && myTransform.root.CompareTag(GameManager.GameManager_References.Instance.PlayerTag))
+                if(Input.GetButtonDown(KeyBind) && Time.timeScale > 0 && myTransform.root.CompareTag(GameManager.GameManager_References.Instance.PlayerTag))
                 {
                     CarryOutThrowActions();
                 }
@@ -46,13 +46,13 @@ namespace S3
         {
             throwDirection = myTransform.parent.forward;
             myTransform.parent = null;
-            itemMaster.CallEventObjectThrow();
+            MasterItem.CallEventObjectThrow();
             HurlItem();
         }
 
         void HurlItem()
         {
-            myRigidbody.AddForce(throwDirection * throwForce,ForceMode.Impulse);
+            myRigidbody.AddForce(throwDirection * ThrowForce,ForceMode.Impulse);
         }
     }
 }

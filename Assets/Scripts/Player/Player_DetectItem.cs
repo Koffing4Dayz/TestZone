@@ -41,8 +41,8 @@ namespace Player
         {
             if (Input.GetButtonDown(MappedKey) && Time.timeScale > 0 && itemInRange && activeItem.root.tag != GameManager.GameManager_References.Instance.PlayerTag)
             {
-                Debug.Log("Pickup attempted");
-                //itemAvailableForPickup.GetComponent<Item_Master>().CallEventPickUpAction(rayTransformPivot);
+                //Debug.Log("Pickup attempted");
+                activeItem.GetComponent<Item.Item_Master>().CallEventPickupAction(RayTransform);
             }
         }
 
