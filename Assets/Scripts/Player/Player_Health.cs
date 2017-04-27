@@ -7,7 +7,8 @@ namespace Player
     public class Player_Health : MonoBehaviour
     {
         private Player_Master MasterPlayer;
-        public int PlayerHealth;
+        public int MaxHealth = 100;
+        public int Health = 100;
         public Text HealthText;
 
         void OnEnable()
@@ -30,26 +31,26 @@ namespace Player
             MasterPlayer = GetComponent<Player_Master>();
         }
 
-        void DeductHealth(int healthChange)
+        void DeductHealth(int amount)
         {
-            PlayerHealth -= healthChange;
+            Health -= amount;
 
-            if (PlayerHealth <= 0)
+            if (Health <= 0)
             {
-                PlayerHealth = 0;
+                Health = 0;
                 GameManager.GameManager_References.Instance.MasterGameManager.CallEventGameOver();
             }
 
             SetUI();
         }
 
-        void IncreaseHealth(int healthChange)
+        void IncreaseHealth(int amount)
         {
-            PlayerHealth += healthChange;
+            Health += amount;
 
-            if (PlayerHealth > 100)
+            if (Health > MaxHealth)
             {
-                PlayerHealth = 100;
+                Health = MaxHealth;
             }
 
             SetUI();
@@ -59,7 +60,7 @@ namespace Player
         {
             if (HealthText != null)
             {
-                HealthText.text = PlayerHealth.ToString();
+                HealthText.text = Health.ToString();
             }
         }
     }

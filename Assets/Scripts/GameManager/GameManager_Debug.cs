@@ -17,6 +17,30 @@ namespace GameManager
             {
                 FindObjectOfType<Player.Player_Master>().CallEventPlayerHealthDeduction(10);
             }
+
+            if (Input.GetKeyDown(KeyCode.F3))
+            {
+                foreach (Enemy.Enemy_Master item in FindObjectsOfType<Enemy.Enemy_Master>())
+                {
+                    item.CallEventEnemyDie();
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.F4))
+            {
+                foreach (Enemy.Enemy_Master item in FindObjectsOfType<Enemy.Enemy_Master>())
+                {
+                    item.CallEventEnemyHealthDeduction(20);
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.F5))
+            {
+                foreach (Enemy.Enemy_Master item in FindObjectsOfType<Enemy.Enemy_Master>())
+                {
+                    item.CallEventEnemyHealthIncrease(20);
+                }
+            }
         }
     }
 }
