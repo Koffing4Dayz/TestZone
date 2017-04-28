@@ -25,6 +25,7 @@ namespace Item
         private void Initialize()
         {
             MasterItem = GetComponent<Item_Master>();
+            IsStartingItem();
         }
 
         private void EnableUI()
@@ -40,6 +41,18 @@ namespace Item
             if (myUI != null)
             {
                 myUI.SetActive(false);
+            }
+        }
+
+        private void IsStartingItem()
+        {
+            if (transform.root.CompareTag(GameManager.GameManager_References.Instance.PlayerTag))
+            {
+                EnableUI();
+            }
+            else
+            {
+                DisableUI();
             }
         }
     }

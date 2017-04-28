@@ -28,7 +28,7 @@ namespace Item
         }
 
         private void IsStartingItem()
-        {
+        { 
             if (transform.root.CompareTag(GameManager.GameManager_References.Instance.PlayerTag))
             {
                 ToHoldLayer();
