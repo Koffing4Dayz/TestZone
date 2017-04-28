@@ -14,11 +14,6 @@ namespace Item
         public Vector3 HeldRotation = Vector3.zero;
         public Vector3 HeldScale = Vector3.one;
 
-        private void Start()
-        {
-            myScale = myTransform.localScale;
-        }
-
         private void OnEnable()
         {
             Initialize();
@@ -36,7 +31,8 @@ namespace Item
         {
             MasterItem = GetComponent<Item_Master>();
             myTransform = transform;
-            SetOnPlayer();
+            if (myScale == Vector3.zero) myScale = myTransform.localScale;
+            IsStartingItem();
         }
 
         private void SetOnPlayer()
