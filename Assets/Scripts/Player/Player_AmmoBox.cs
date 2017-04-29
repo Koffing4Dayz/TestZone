@@ -44,20 +44,18 @@ namespace Player
 
         void PickedUpAmmo(string ammoName,int quantity)
         {
-#pragma warning disable CS0162 // Unreachable code detected
             for (int i = 0; i < typesOfAmmunition.Count; i++)
-#pragma warning restore CS0162 // Unreachable code detected
             {
                 if (typesOfAmmunition[i].ammoName == ammoName)
                 {
                     typesOfAmmunition[i].ammoCurrentCarried += quantity;
+                    if (typesOfAmmunition[i].ammoCurrentCarried > typesOfAmmunition[i].ammoMaxQuantity)
+                    {
+                        typesOfAmmunition[i].ammoCurrentCarried = typesOfAmmunition[i].ammoMaxQuantity;
+                    }
+                    MasterPlayer.CallEventAmmoChanged();
+                    break;
                 }
-                if (typesOfAmmunition[i].ammoCurrentCarried > typesOfAmmunition[i].ammoMaxQuantity)
-                {
-                    typesOfAmmunition[i].ammoCurrentCarried = typesOfAmmunition[i].ammoMaxQuantity;
-                }
-                MasterPlayer.CallEventAmmoChanged();
-                break;
             }
         }
     }

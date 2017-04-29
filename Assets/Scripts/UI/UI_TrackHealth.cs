@@ -18,8 +18,7 @@ namespace UI
             {
                 if (Owner != null)
                 {
-                    MasterEnemy.EventEnemyHealthIncrease += UpdateUI;
-                    MasterEnemy.EventEnemyHealthDeduction += UpdateUI;
+                    MasterEnemy.EventEnemyHealthUpdate += UpdateUI;
                     MasterEnemy.EventEnemyDie += DisableThis;
                 }
                 else
@@ -35,9 +34,8 @@ namespace UI
 
         private void OnDisable()
         {
-            if (MasterEnemy == null) return; 
-            MasterEnemy.EventEnemyHealthIncrease -= UpdateUI;
-            MasterEnemy.EventEnemyHealthDeduction -= UpdateUI;
+            if (MasterEnemy == null) return;
+            MasterEnemy.EventEnemyHealthUpdate -= UpdateUI;
             MasterEnemy.EventEnemyDie -= DisableThis;
         }
 
@@ -52,10 +50,10 @@ namespace UI
             {
                 myImage = GetComponent<Image>();
             }
-            UpdateUI(0);
+            UpdateUI();
         }
 
-        private void UpdateUI(int amount)
+        private void UpdateUI()
         {
             myImage.fillAmount = (float)(Owner.Health) / (float)Owner.MaxHealth;
         }

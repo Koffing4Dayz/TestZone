@@ -42,6 +42,7 @@ namespace Enemy
             }
 
             CheckHealth();
+            MasterEnemy.CallEventEnemyHealthUpdate();
         }
 
         private void IncreaseHealth(int amount)
@@ -54,6 +55,7 @@ namespace Enemy
             }
 
             CheckHealth();
+            MasterEnemy.CallEventEnemyHealthUpdate();
         }
 
         private void CheckHealth()

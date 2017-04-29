@@ -18,6 +18,7 @@ namespace Enemy
         public event GeneralEventHandler EventEnemyLostTarget;
         public event GeneralEventHandler EventEnemyHealthLow;
         public event GeneralEventHandler EventEnemyHealthRecovered;
+        public event GeneralEventHandler EventEnemyHealthUpdate;
 
         public delegate void HealthEventHandler(int amount);
         public event HealthEventHandler EventEnemyHealthIncrease;
@@ -80,6 +81,14 @@ namespace Enemy
             if (EventEnemyHealthRecovered != null)
             {
                 EventEnemyHealthRecovered();
+            }
+        }
+
+        public void CallEventEnemyHealthUpdate()
+        {
+            if (EventEnemyHealthUpdate != null)
+            {
+                EventEnemyHealthUpdate();
             }
         }
 

@@ -23,11 +23,6 @@ namespace Item
             MasterItem.EventObjectPickup -= TakeAmmo;
         }
 
-        private void Start()
-        {
-            
-        }
-
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag(GameManager.GameManager_References.Instance.PlayerTag) && IsTriggerPickup)
