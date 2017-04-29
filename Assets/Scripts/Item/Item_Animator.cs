@@ -26,6 +26,7 @@ namespace Item
         {
             MasterItem = GetComponent<Item_Master>();
             myAnimator = GetComponent<Animator>();
+            IsStartingItem();
         }
 
         private void EnableAnimator()
@@ -41,6 +42,18 @@ namespace Item
             if (myAnimator != null)
             {
                 myAnimator.enabled = false;
+            }
+        }
+
+        private void IsStartingItem()
+        {
+            if (transform.root.CompareTag(GameManager.GameManager_References.Instance.PlayerTag))
+            {
+                EnableAnimator();
+            }
+            else
+            {
+                DisableAnimator();
             }
         }
     }
