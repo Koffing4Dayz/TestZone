@@ -23,8 +23,8 @@ namespace Gun
         public delegate void GunAmmoEventHandler(int currentAmmo, int carriedAmmo);
         public event GunAmmoEventHandler EventAmmoChanged;
 
-        public delegate void GunCrosshairEventHandler(float spread);
-        public event GunCrosshairEventHandler EventSpreadCaptured;
+        //public delegate void GunCrosshairEventHandler(float spread);
+        //public event GunCrosshairEventHandler EventSpreadCaptured;
 
         public void CallEventPlayerInput()
         {
@@ -90,12 +90,12 @@ namespace Gun
             }
         }
 
-        public void CallEventSpreadCaptured(float spread)
-        {
-            if (EventSpreadCaptured != null)
-            {
-                EventSpreadCaptured(spread);
-            }
-        }
+        //public void CallEventSpreadCaptured(float spread)
+        //{
+        //    if (EventSpreadCaptured != null)
+        //    {
+        //        EventSpreadCaptured(spread);
+        //    }
+        //}
     }
 }

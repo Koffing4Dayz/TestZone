@@ -35,7 +35,7 @@ namespace Gun
 
         private void Update()
         {
-            GetSpread();
+            //GetSpread();
             if (Time.timeScale <= 0) return;
             currentRecoil -= RecoilDecay * Time.deltaTime;
             if (currentRecoil < 0) currentRecoil = 0;
