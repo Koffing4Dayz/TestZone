@@ -7,6 +7,7 @@ namespace Gun
     public class Gun_StandardInput : MonoBehaviour
     {
         private Gun_Master MasterGun;
+        private Item.Item_Master MasterItem;
         private float nextAttack;
         public float AttackRate = 0.5f;
         private Transform myTransform;
@@ -34,11 +35,15 @@ namespace Gun
             MasterGun = GetComponent<Gun_Master>();
             myTransform = transform;
             MasterGun.IsGunLoaded = true;
+            MasterItem = GetComponent<Item.Item_Master>();
+            MasterItem.EventObjectPickup += EnableThis;
+            MasterItem.EventObjectThrow += DisableThis;
+            IsStartingItem();
         }
 
         private void CheckIfFired()
         {
-            if (Time.time > nextAttack && Time.timeScale > 0 && myTransform.root.CompareTag(GameManager.GameManager_References.Instance.PlayerTag))
+            if (Time.time > nextAttack && Time.timeScale > 0)//  && myTransform.root.CompareTag(GameManager.GameManager_References.Instance.PlayerTag))
             {
                 if (IsAutomatic && !isBurstFireActive)
                 {
@@ -83,7 +88,7 @@ namespace Gun
 
         private void CheckReloadRequest()
         {
-            if (Input.GetButtonDown(ReloadKeyBind) && Time.timeScale > 0 && myTransform.root.CompareTag(GameManager.GameManager_References.Instance.PlayerTag))
+            if (Input.GetButtonDown(ReloadKeyBind) && Time.timeScale > 0)// && myTransform.root.CompareTag(GameManager.GameManager_References.Instance.PlayerTag))
             {
                 MasterGun.CallEventRequestReload();
             }
@@ -93,7 +98,7 @@ namespace Gun
         {
             if (!HasAltFire) return;
 
-            if (Input.GetButtonDown(AltFireKeyBind) && Time.timeScale > 0 && myTransform.root.CompareTag(GameManager.GameManager_References.Instance.PlayerTag))
+            if (Input.GetButtonDown(AltFireKeyBind) && Time.timeScale > 0)//  && myTransform.root.CompareTag(GameManager.GameManager_References.Instance.PlayerTag))
             {
                 //Debug.Log("Burst Fire Toggled");
                 isBurstFireActive = !isBurstFireActive;
@@ -109,6 +114,28 @@ namespace Gun
             yield return new WaitForSeconds(AttackRate);
             AttemptFire();
             yield return new WaitForSeconds(AttackRate);
+        }
+
+        private void EnableThis()
+        {
+            enabled = true;
+        }
+
+        private void DisableThis()
+        {
+            enabled = false;
+        }
+
+        private void IsStartingItem()
+        {
+            if (myTransform.root.CompareTag(GameManager.GameManager_References.Instance.PlayerTag))
+            {
+                EnableThis();
+            }
+            else
+            {
+                DisableThis();
+            }
         }
     }
 }

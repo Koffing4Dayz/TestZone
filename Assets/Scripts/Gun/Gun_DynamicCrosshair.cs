@@ -9,9 +9,8 @@ namespace Gun
         private Gun_Master MasterGun;
         private Item.Item_Master ItemMaster;
         public Transform CanvasDynamicCrosshair;
-        private Transform playerTransform;
         private Transform weaponCamera;
-        private float playerSpeed;
+        private Transform playerTransform;
         private float nextCaptureTime;
         private float captureInterval = 0.5f;
         private Vector3 lastPosition;
@@ -41,7 +40,7 @@ namespace Gun
         private void Update()
         {
             if (!IsUIActive) return;
-            CapturePlayerSpeed();
+            //CapturePlayerSpeed();
             ApplySpeedToAnimation();
         }
 
@@ -56,22 +55,22 @@ namespace Gun
             SetPlaneOnDynamicCrosshairCanvas();
         }
 
-        private void CapturePlayerSpeed()
-        {
-            if (Time.time > nextCaptureTime)
-            {
-                nextCaptureTime = Time.time + captureInterval;
-                playerSpeed = (playerTransform.position - lastPosition).magnitude / captureInterval;
-                lastPosition = playerTransform.position;
-                MasterGun.CallEventSpeedCaptured(playerSpeed);
-            }
-        }
+        //private void CapturePlayerSpeed()
+        //{
+        //    if (Time.time > nextCaptureTime)
+        //    {
+        //        nextCaptureTime = Time.time + captureInterval;
+        //        playerSpeed = (playerTransform.position - lastPosition).magnitude / captureInterval;
+        //        lastPosition = playerTransform.position;
+        //        MasterGun.CallEventSpeedCaptured(playerSpeed);
+        //    }
+        //}
 
         private void ApplySpeedToAnimation()
         {
             if (crosshairAnimator != null)
             {
-                crosshairAnimator.SetFloat("Speed", playerSpeed);
+                crosshairAnimator.SetFloat("Speed", GameManager.GameManager_References.Instance.MasterPlayer.Speed);
             }
         }
 

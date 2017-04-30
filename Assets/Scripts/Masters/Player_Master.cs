@@ -5,6 +5,8 @@ namespace Player
 {
     public class Player_Master : MonoBehaviour
     {
+        public float Speed;
+
         public delegate void GeneralEventHandler();
         public event GeneralEventHandler EventInventoryChanged;
         public event GeneralEventHandler EventHandsEmpty;
