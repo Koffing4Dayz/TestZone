@@ -54,5 +54,20 @@ namespace Spawner
                 Instantiate(ObjectToSpawn, spawnPosition, myTransform.rotation);
             }
         }
+
+#if UNITY_EDITOR
+        public bool EnableGizmos;
+
+        private void OnDrawGizmos()
+        {
+            if (EnableGizmos)
+	        {
+                Gizmos.color = GizmoHelper.LowAlpha(Color.green);
+                Gizmos.DrawWireMesh(GizmoHelper.GetPrimitiveMesh(PrimitiveType.Cylinder), transform.position, Quaternion.identity, new Vector3(Proximity, 1, Proximity));
+                Gizmos.color = GizmoHelper.LowAlpha(Color.red);
+                Gizmos.DrawWireMesh(GizmoHelper.GetPrimitiveMesh(PrimitiveType.Cylinder), transform.position, Quaternion.identity, new Vector3(SpawnRadius, 1, SpawnRadius));
+            }
+        }
+#endif
     }
 }
