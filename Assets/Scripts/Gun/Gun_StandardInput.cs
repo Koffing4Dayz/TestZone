@@ -7,7 +7,6 @@ namespace Gun
     public class Gun_StandardInput : MonoBehaviour
     {
         private Gun_Master MasterGun;
-        private Item.Item_Master MasterItem;
         private float nextAttack;
         public float AttackRate = 0.5f;
         private Transform myTransform;
@@ -30,14 +29,22 @@ namespace Gun
             CheckBurstFireToggle();
         }
 
+        private void OnDestroy()
+        {
+            if (GetComponent<Item.Item_Master>() != null)
+            {
+                GetComponent<Item.Item_Master>().EventObjectPickup -= EnableThis;
+                GetComponent<Item.Item_Master>().EventObjectThrow -= DisableThis;
+            }
+        }
+
         private void Initialize()
         {
             MasterGun = GetComponent<Gun_Master>();
             myTransform = transform;
             MasterGun.IsGunLoaded = true;
-            MasterItem = GetComponent<Item.Item_Master>();
-            MasterItem.EventObjectPickup += EnableThis;
-            MasterItem.EventObjectThrow += DisableThis;
+            GetComponent<Item.Item_Master>().EventObjectPickup += EnableThis;
+            GetComponent<Item.Item_Master>().EventObjectThrow += DisableThis;
             IsStartingItem();
         }
 

@@ -11,21 +11,25 @@ namespace Gun
         private Transform camTransform;
         private RaycastHit hit;
         public float Range = 400;
-        public float SpreadSpeedFactor = 0.1f;
-        public float SpreadSpeedCap = 0.1f;
+        public float SpeedFactor = 0.1f;
+        public float SpeedInterval = 0.2f;
+        public float SpeedCap = 0.1f;
+        public float SpeedDecay = 0.05f;
         public float Recoil = 0.05f;
         public float RecoilCap = 0.1f;
         public float RecoilDecay = 0.05f;
         public float MinSpread = 0;
         public float MaxSpread = 0.2f;
+        private float targetSpeed = 0;
+        private float currentSpeed = 0;
         private float currentRecoil = 0;
         private float spread = 0;
         private Vector3 spreadAngle = Vector3.zero;
 
         private void OnEnable()
         {
-            Initialize();
             MasterGun.EventPlayerInput += OpenFire;
+            camTransform = myTransform.parent;
         }
 
         private void OnDisable()
@@ -33,30 +37,60 @@ namespace Gun
             MasterGun.EventPlayerInput -= OpenFire;
         }
 
+        private void Awake()
+        {
+            Initialize();
+            GetComponent<Item.Item_Master>().EventObjectThrow += DisableThis;
+            GetComponent<Item.Item_Master>().EventObjectPickup += EnableThis;
+        }
+
+        private void OnDestroy()
+        {
+            if (GetComponent<Item.Item_Master>() != null)
+            {
+                GetComponent<Item.Item_Master>().EventObjectPickup -= EnableThis;
+                GetComponent<Item.Item_Master>().EventObjectThrow -= DisableThis;
+            }
+        }
+
         private void Update()
         {
-            //GetSpread();
             if (Time.timeScale <= 0) return;
-            currentRecoil -= RecoilDecay * Time.deltaTime;
-            if (currentRecoil < 0) currentRecoil = 0;
+            CalcSpread();
         }
 
         private void Initialize()
         {
             MasterGun = GetComponent<Gun_Master>();
             myTransform = transform;
-            camTransform = myTransform.parent;
+            IsStartingItem();
         }
 
         public float GetSpread()
         {
-            spread = GameManager.GameManager_References.Instance.MasterPlayer.Speed * SpreadSpeedFactor;
-            if (spread > SpreadSpeedCap)
+            return spread;
+        }
+
+        private void CalcSpread()
+        {
+            targetSpeed = GameManager.GameManager_References.Instance.MasterPlayer.Speed * SpeedFactor;
+
+            if (currentSpeed < targetSpeed)
             {
-                spread = SpreadSpeedCap;
+                currentSpeed += SpeedInterval * Time.deltaTime;
+            }
+            else
+            {
+                currentSpeed -= SpeedDecay * Time.deltaTime;
+                if (currentSpeed < 0) currentSpeed = 0;
             }
 
-            spread += currentRecoil;
+            if (currentSpeed > SpeedCap)
+            {
+                currentSpeed = SpeedCap;
+            }
+
+            spread = currentSpeed + currentRecoil;
 
             if (spread > MaxSpread)
             {
@@ -67,12 +101,12 @@ namespace Gun
                 spread = MinSpread;
             }
 
-            return spread;
+            currentRecoil -= RecoilDecay * Time.deltaTime;
+            if (currentRecoil < 0) currentRecoil = 0;
         }
 
         private void OpenFire()
         {
-            GetSpread();
             spreadAngle = camTransform.forward;
             spreadAngle.x += Random.Range(-spread, spread);
             spreadAngle.y += Random.Range(-spread, spread);
@@ -95,6 +129,28 @@ namespace Gun
             }
         }
 
+        private void IsStartingItem()
+        {
+            if (transform.root.CompareTag(GameManager.GameManager_References.Instance.PlayerTag))
+            {
+                EnableThis();
+            }
+            else
+            {
+                DisableThis();
+            }
+        }
+
+        private void EnableThis()
+        {
+            enabled = true;
+        }
+
+        private void DisableThis()
+        {
+            enabled = false;
+        }
+
 #if UNITY_EDITOR
         public bool EnableGizmos;
         public Vector3 GizmoOffset;
@@ -108,7 +164,7 @@ namespace Gun
             {
                 Gizmos.color = GizmoHelper.LowAlpha(Color.green);
                 start = transform.position + GizmoOffset;
-                float offset = GizmoSpeed * SpreadSpeedFactor;
+                float offset = GizmoSpeed * SpeedFactor;
                 angle = new Vector3(offset, offset, 1) * Range;
 
                 //Gizmos.matrix = transform.worldToLocalMatrix;

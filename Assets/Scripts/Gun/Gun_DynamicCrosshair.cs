@@ -6,18 +6,18 @@ namespace Gun
 {
     public class Gun_DynamicCrosshair : MonoBehaviour
     {
-        private Gun_Master MasterGun;
+        //private Gun_Master MasterGun;
         private Item.Item_Master ItemMaster;
         public Transform CanvasDynamicCrosshair;
         private Transform weaponCamera;
         private Transform playerTransform;
-        private float nextCaptureTime;
-        private float captureInterval = 0.5f;
-        private Vector3 lastPosition;
+        //private float nextCaptureTime;
+        //private float captureInterval = 0.5f;
+        //private Vector3 lastPosition;
         private Animator crosshairAnimator;
         public string weaponCameraName;
         private bool IsUIActive;
-        public float HitMarkDuration = 0.1f;
+        //public float HitMarkDuration = 0.1f;
 
         private void OnEnable()
         {
@@ -46,7 +46,7 @@ namespace Gun
 
         private void Initialize()
         {
-            MasterGun = GetComponent<Gun_Master>();
+            //MasterGun = GetComponent<Gun_Master>();
             ItemMaster = GetComponent<Item.Item_Master>();
             playerTransform = GameManager.GameManager_References.Instance.Player.transform;
             crosshairAnimator = CanvasDynamicCrosshair.GetComponent<Animator>();
@@ -134,9 +134,9 @@ namespace Gun
             IsUIActive = false;
         }
 
-        private IEnumerator ActivateHitMarker()
-        {
-            yield return new WaitForSeconds(HitMarkDuration);
-        }
+        //private IEnumerator ActivateHitMarker()
+        //{
+        //    yield return new WaitForSeconds(HitMarkDuration);
+        //}
     }
 }
