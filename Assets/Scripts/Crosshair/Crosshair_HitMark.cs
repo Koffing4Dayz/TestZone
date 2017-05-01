@@ -30,6 +30,16 @@ namespace Crosshair
 
         private void ActivateHitMark(Vector3 hitPosition, Transform hitTransform)
         {
+            Enemy.Enemy_Health hitHealth = hitTransform.root.GetComponent<Enemy.Enemy_Health>();
+
+            if (hitHealth != null)
+            {
+                if (hitHealth.Health <= 0)
+                {
+                    return;
+                }
+            }
+
             MasterCrosshair.CallEventActivateHitMarker();
 
             if (HitMarkSound != null)
