@@ -7,7 +7,7 @@ namespace Item
     public class Item_Colliders : MonoBehaviour
     {
         private Item_Master MasterItem;
-        private Collider[] Colliders;
+        public Collider[] Colliders;
         public PhysicMaterial myPhysicMat;
 
         private void OnEnable()
@@ -26,7 +26,7 @@ namespace Item
         private void Initialize()
         {
             MasterItem = GetComponent<Item_Master>();
-            Colliders = GetComponentsInChildren<Collider>();
+            //Colliders = GetComponentsInChildren<Collider>();
             IsStartingItem();
         }
 
