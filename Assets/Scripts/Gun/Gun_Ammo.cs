@@ -121,6 +121,8 @@ namespace Gun
 
         private void UIAmmoUpdateRequest()
         {
+            if (myAmmoBox == null) return;
+
             for (int i = 0; i < myAmmoBox.typesOfAmmunition.Count; i++)
             {
                 if (myAmmoBox.typesOfAmmunition[i].ammoName == AmmoName)
