@@ -7,11 +7,12 @@ namespace Projectile
     public class Projectile_Explode : MonoBehaviour
     {
         private Projectile_Master MasterProjectile;
-        private SphereCollider myCollider;
+        private Rigidbody myRigidbody;
         private bool exploded = false;
 
         public ParticleSystem MainEffect;
         public ParticleSystem ExplodeEffect;
+        public Collider MainCollider;
         public Collider ExplosionArea;
         public float Duration = 3;
 
@@ -35,7 +36,7 @@ namespace Projectile
         private void Initialize()
         {
             MasterProjectile = GetComponent<Projectile_Master>();
-            myCollider = GetComponent<SphereCollider>();
+            myRigidbody = GetComponent<Rigidbody>();
             ExplosionArea.isTrigger = true;
             ExplosionArea.enabled = false;
         }
@@ -44,6 +45,8 @@ namespace Projectile
         {
             if (exploded) return;
 
+            MainCollider.enabled = false;
+            myRigidbody.isKinematic = true;
             exploded = true;
             ExplodeEffect.Play();
             ExplosionArea.enabled = true;
@@ -60,6 +63,8 @@ namespace Projectile
 
         private void Restart()
         {
+            MainCollider.enabled = true;
+            myRigidbody.isKinematic = false;
             ExplosionArea.enabled = false;
             ExplosionArea.isTrigger = true;
             exploded = false;

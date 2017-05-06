@@ -28,7 +28,7 @@ public class ObjectPool : MonoBehaviour
 
     public bool GetNext(out GameObject obj)
     {
-        if (pool[index].activeSelf == true)
+        if (pool[index].activeSelf == false)
         {
             obj = pool[index];
             ++index;
@@ -47,7 +47,7 @@ public class ObjectPool : MonoBehaviour
                 if (index + i >= NumberPooled)
                     current = current - NumberPooled;
 
-                if (pool[current].activeSelf == true)
+                if (pool[current].activeSelf == false)
                 {
                     obj = pool[current];
                     index = current++;

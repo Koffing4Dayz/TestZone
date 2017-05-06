@@ -8,7 +8,6 @@ namespace Projectile
     {
         private Projectile_Master MasterProjectile;
         private Rigidbody myRigidbody;
-        private Transform myTransform;
 
         private void Awake()
         {
@@ -29,7 +28,6 @@ namespace Projectile
         {
             MasterProjectile = GetComponent<Projectile_Master>();
             myRigidbody = GetComponent<Rigidbody>();
-            myTransform = transform;
         }
 
         private void RunUpdate()

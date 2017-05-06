@@ -8,6 +8,7 @@ namespace Spell
     {
         private Spell_Master MasterSpell;
         public string FireKeyBind = "Fire1";
+        public bool IsAutomatic = true;
 
         private void Awake()
         {
@@ -31,7 +32,11 @@ namespace Spell
 
         private void RunUpdate()
         {
-            if (Input.GetButton(FireKeyBind))
+            if (IsAutomatic && Input.GetButton(FireKeyBind))
+            {
+                MasterSpell.CallFireInputEvent();
+            }
+            else if (Input.GetButtonDown(FireKeyBind))
             {
                 MasterSpell.CallFireInputEvent();
             }
