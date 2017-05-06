@@ -10,6 +10,8 @@ namespace Spell
         private RaycastHit[] hits;
         private Transform camTransform;
 
+        public float Rate = 1;
+        private float nextCast;
         public float Radius = 2.5f;
         public float Range = 100;
 
@@ -36,21 +38,26 @@ namespace Spell
 
         private void RunCast()
         {
-            hits = Physics.SphereCastAll(camTransform.position, Radius, camTransform.forward, Range);
-
-            if (hits == null) return;
-
-            foreach (RaycastHit item in hits) 
+            if (Time.time > nextCast)
             {
-                MasterSpell.CallShotDefultEvent(item.point, item.transform);
+                nextCast = Time.time + Rate;
 
-                if (item.transform.CompareTag(GameManager.GameManager_References.Instance.EnemyTag))
+                hits = Physics.SphereCastAll(camTransform.position, Radius, camTransform.forward, Range);
+
+                if (hits == null) return;
+
+                foreach (RaycastHit item in hits) 
                 {
-                    MasterSpell.CallShotEnemyEvent(item.point, item.transform);
+                    MasterSpell.CallHitDefultEvent(item.point, item.transform);
+
+                    if (item.transform.CompareTag(GameManager.GameManager_References.Instance.EnemyTag))
+                    {
+                        MasterSpell.CallHitEnemyEvent(item.point, item.transform);
+                    }
+    #if UNITY_EDITOR
+                    VisulizeCast();
+    #endif
                 }
-#if UNITY_EDITOR
-                VisulizeCast();
-#endif
             }
         }
 

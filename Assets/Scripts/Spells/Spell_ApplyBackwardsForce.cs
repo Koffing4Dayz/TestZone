@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.Characters.FirstPerson;
 
 namespace Spell
 {
@@ -8,6 +9,7 @@ namespace Spell
     {
         private Spell_Master MasterSpell;
         private Rigidbody playerRigid;
+        private RigidbodyFirstPersonController playerCon;
         private Transform camTransform;
         public float Power = 10;
 
@@ -31,11 +33,19 @@ namespace Spell
         {
             MasterSpell = GetComponent<Spell_Master>();
             playerRigid = GameManager.GameManager_References.Instance.Player.GetComponent<Rigidbody>();
+            playerCon = GameManager.GameManager_References.Instance.Player.GetComponent<RigidbodyFirstPersonController>();
         }
 
         private void ApplyForce()
         {
+            if (playerCon.Grounded) return;
+
             playerRigid.AddForce(-camTransform.forward * Power);
+
+            if (playerRigid.velocity.sqrMagnitude > (playerCon.movementSettings.FlySpeed * playerCon.movementSettings.FlySpeed))
+            {
+                playerRigid.velocity = playerRigid.velocity.normalized * playerCon.movementSettings.FlySpeed;
+            }
         }
     }
 }

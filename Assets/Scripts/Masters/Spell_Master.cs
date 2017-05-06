@@ -12,8 +12,8 @@ namespace Spell
         public event GeneralEventHandler EventSelected;
 
         public delegate void SpellHitEventHandler(Vector3 hitPosition, Transform hitTransform);
-        public event SpellHitEventHandler EventShotDefult;
-        public event SpellHitEventHandler EventShotEnemy;
+        public event SpellHitEventHandler EventHitDefult;
+        public event SpellHitEventHandler EventHitEnemy;
 
         private void Update()
         {
@@ -41,19 +41,19 @@ namespace Spell
             }
         }
 
-        public void CallShotDefultEvent(Vector3 hitPosition, Transform hitTransform)
+        public void CallHitDefultEvent(Vector3 hitPosition, Transform hitTransform)
         {
-            if (EventShotDefult != null)
+            if (EventHitDefult != null)
             {
-                EventShotDefult(hitPosition, hitTransform);
+                EventHitDefult(hitPosition, hitTransform);
             }
         }
 
-        public void CallShotEnemyEvent(Vector3 hitPosition, Transform hitTransform)
+        public void CallHitEnemyEvent(Vector3 hitPosition, Transform hitTransform)
         {
-            if (EventShotEnemy != null)
+            if (EventHitEnemy != null)
             {
-                EventShotEnemy(hitPosition, hitTransform);
+                EventHitEnemy(hitPosition, hitTransform);
             }
         }            
     }
