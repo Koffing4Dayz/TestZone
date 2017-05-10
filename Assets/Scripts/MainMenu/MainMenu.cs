@@ -9,7 +9,8 @@ namespace MainMenu
     {
         public void PlayGame()
         {
-            SceneManager.LoadScene("TestingRoom");
+            SceneManager.LoadScene(1);
+            MeshRenderer temp;
         }
 
         public void ExitGame()
