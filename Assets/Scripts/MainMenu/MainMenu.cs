@@ -10,7 +10,6 @@ namespace MainMenu
         public void PlayGame()
         {
             SceneManager.LoadScene(1);
-            MeshRenderer temp;
         }
 
         public void ExitGame()
