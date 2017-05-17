@@ -6,21 +6,20 @@ public class ParticleOnLaser : MonoBehaviour
 {
     public class Hit
     {
-        public Vector3 pos;
+        public Matrix4x4 drawMatrix;
         public float life;
 
-        public Hit(Vector3 location)
+        public Hit(Matrix4x4 location)
         {
-            pos = location;
-            life = 5;
+            drawMatrix = location;
+            life = 10;
         }
     }
 
     private ParticleSystem myParticle;
     private List<ParticleCollisionEvent> collisionEvents;
     private List<Hit> hits;
-    private Vector2 top = new Vector2(0.2f, 0.2f);
-    private Vector2 bot = new Vector2(-0.2f, -0.2f);
+    private Vector3 myScale = new Vector3(0.1f, 0.01f, 0.01f);
 
     public Mesh hitMesh;
     public Material hitMat;
@@ -30,21 +29,18 @@ public class ParticleOnLaser : MonoBehaviour
         myParticle = GetComponent<ParticleSystem>();
         collisionEvents = new List<ParticleCollisionEvent>();
         hits = new List<Hit>();
+        
     }
 
     private void OnParticleCollision(GameObject other)
     {
-        Debug.Log("HA");
-
         if (other.CompareTag("Laser"))
         {
-            Debug.Log("HO");
             int numCollisionEvents = myParticle.GetCollisionEvents(other, collisionEvents);
 
             foreach (ParticleCollisionEvent item in collisionEvents)
             {
-                Debug.Log("HI");
-                hits.Add(new Hit(item.intersection));
+                hits.Add(new Hit(Matrix4x4.TRS(item.intersection, other.transform.rotation, myScale)));
             }
         }
     }
@@ -53,7 +49,7 @@ public class ParticleOnLaser : MonoBehaviour
     {
         for (int i = 0; i < hits.Count; i++)
         {
-            Graphics.DrawMesh(hitMesh, hits[i].pos, Quaternion.identity, hitMat, 0);
+            Graphics.DrawMesh(hitMesh, hits[i].drawMatrix, hitMat, 0, null, 0, null, false, false, false);
             hits[i].life -= 0.1f;
 
             if (hits[i].life < 0)
