@@ -2,15 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class IgnorePlayerCollision : MonoBehaviour {
+public class IgnorePlayerCollision : MonoBehaviour
+{
+    public Collider myCollider;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+	void Start ()
+    {
+        Physics.IgnoreCollision(myCollider, GameManager.GameManager_References.Instance.Player.GetComponent<Collider>());
 	}
 }

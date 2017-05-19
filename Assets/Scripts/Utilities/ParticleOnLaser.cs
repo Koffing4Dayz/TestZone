@@ -19,19 +19,20 @@ public class ParticleOnLaser : MonoBehaviour
     private ParticleSystem myParticle;
     private List<ParticleCollisionEvent> collisionEvents;
     private List<Hit> hits;
-    private Vector3 myScale = new Vector3(0.1f, 0.01f, 0.01f);
+    private Quaternion rotFudge = Quaternion.Euler(0, 90, 0);
 
     public Mesh hitMesh;
     public Material hitMat;
+    public ParticleSystem laserPart;
 
     private void Awake()
     {
         myParticle = GetComponent<ParticleSystem>();
         collisionEvents = new List<ParticleCollisionEvent>();
         hits = new List<Hit>();
-        
+        laserPart.transform.parent = null;
     }
-
+    
     private void OnParticleCollision(GameObject other)
     {
         if (other.CompareTag("Laser"))
@@ -40,22 +41,29 @@ public class ParticleOnLaser : MonoBehaviour
 
             foreach (ParticleCollisionEvent item in collisionEvents)
             {
-                hits.Add(new Hit(Matrix4x4.TRS(item.intersection, other.transform.rotation, myScale)));
+                laserPart.transform.position = item.intersection;
+                laserPart.transform.localRotation = other.transform.localRotation * rotFudge;
+                laserPart.Emit(1);
             }
+
+            //foreach (ParticleCollisionEvent item in collisionEvents)
+            //{
+            //    hits.Add(new Hit(Matrix4x4.TRS(item.intersection, other.transform.rotation, myScale)));
+            //}
         }
     }
 
-    private void Update()
-    {
-        for (int i = 0; i < hits.Count; i++)
-        {
-            Graphics.DrawMesh(hitMesh, hits[i].drawMatrix, hitMat, 0, null, 0, null, false, false, false);
-            hits[i].life -= 0.1f;
+    //private void Update()
+    //{
+    //    for (int i = 0; i < hits.Count; i++)
+    //    {
+    //        Graphics.DrawMesh(hitMesh, hits[i].drawMatrix, hitMat, 0, null, 0, null, false, false, false);
+    //        hits[i].life -= 0.1f;
 
-            if (hits[i].life < 0)
-            {
-                hits.RemoveAt(i);
-            }
-        }
-    }
+    //        if (hits[i].life < 0)
+    //        {
+    //            hits.RemoveAt(i);
+    //        }
+    //    }
+    //}
 }
