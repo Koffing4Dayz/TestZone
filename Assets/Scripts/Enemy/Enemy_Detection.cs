@@ -15,6 +15,7 @@ namespace Enemy
         private float nextCheck;
         public float detectRadius = 80;
         private RaycastHit hit;
+        public float fireRange = 40;
 
         private void OnEnable()
         {
@@ -61,6 +62,14 @@ namespace Enemy
                         {
                             if (CanTargetBeSeen(item.transform))
                             {
+                                if (Vector3.Distance(myTransform.position, MasterEnemy.myTarget.position) < fireRange)
+                                {
+                                    MasterEnemy.CallEventEnemyAim();
+                                }
+                                else
+                                {
+                                    MasterEnemy.CallEventEnemyLostTarget();
+                                }
                                 break;
                             }
                         }
