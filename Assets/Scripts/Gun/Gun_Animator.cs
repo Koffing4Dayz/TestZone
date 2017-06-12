@@ -13,11 +13,13 @@ namespace Gun
         {
             Initialize();
             MasterGun.EventPlayerInput += PlayShootAnimation;
+            MasterGun.EventNpcInput += PlayShootAnimationNPC;
         }
 
         private void OnDisable()
         {
             MasterGun.EventPlayerInput -= PlayShootAnimation;
+            MasterGun.EventNpcInput -= PlayShootAnimationNPC;
         }
 
         private void Initialize()
@@ -27,6 +29,11 @@ namespace Gun
         }
 
         private void PlayShootAnimation()
+        {
+            myAnimator.SetTrigger("Shoot");
+        }
+
+        private void PlayShootAnimationNPC(float dummy)
         {
             myAnimator.SetTrigger("Shoot");
         }

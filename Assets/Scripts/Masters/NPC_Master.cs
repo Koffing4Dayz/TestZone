@@ -15,12 +15,13 @@ namespace NPC
         public event GeneralEventHandler EventNpcStruckAnim;
         public event GeneralEventHandler EventNpcRecoveredAnim;
         public event GeneralEventHandler EventNpcIdleAnim;
+        public event GeneralEventHandler EventNpcAttackAnim;
 
         public delegate void HealthEventHandler(int health);
         public event HealthEventHandler EventNpcDeductHealth;
         public event HealthEventHandler EventNpcIncreaseHealth;
 
-        public string animBoolPursuing = "isPursuing";
+        public string animBoolPursuing = "IsPursuing";
         public string animTriggerStruck = "Struck";
         public string animTriggerMelee = "Attack";
         public string animTriggerRecovered = "Recovered";
@@ -86,6 +87,14 @@ namespace NPC
             if (EventNpcIdleAnim != null)
             {
                 EventNpcIdleAnim();
+            }
+        }
+
+        public void CallEventNpcAttackAnim()
+        {
+            if (EventNpcAttackAnim != null)
+            {
+                EventNpcAttackAnim();
             }
         }
 

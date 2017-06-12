@@ -17,11 +17,13 @@ namespace Gun
         {
             Initialize();
             MasterGun.EventPlayerInput += PlayShootSound;
+            MasterGun.EventNpcInput += PlayShootSoundNPC;
         }
 
         private void OnDisable()
         {
             MasterGun.EventPlayerInput -= PlayShootSound;
+            MasterGun.EventNpcInput -= PlayShootSoundNPC;
         }
 
         private void Initialize()
@@ -44,6 +46,15 @@ namespace Gun
             if (ReloadSound != null)
             {
                 AudioSource.PlayClipAtPoint(ReloadSound, myTransform.position, ReloadVolume);
+            }
+        }
+
+        private void PlayShootSoundNPC(float dummy)
+        {
+            if (ShootSounds.Length > 0)
+            {
+                int index = Random.Range(0, ShootSounds.Length);
+                AudioSource.PlayClipAtPoint(ShootSounds[index], myTransform.position, ShootVolume);
             }
         }
     }

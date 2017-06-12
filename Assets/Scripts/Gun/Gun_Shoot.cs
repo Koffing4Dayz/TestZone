@@ -114,11 +114,13 @@ namespace Gun
 
             if (Physics.Raycast(camTransform.position, spreadAngle, out hit, Range))
             {
-                MasterGun.CallEventShotDefult(hit.point, hit.transform);
-                
-                if (hit.transform.CompareTag(GameManager.GameManager_References.Instance.EnemyTag))
+                if (hit.transform.GetComponent<NPC.NPC_TakeDamage>())
                 {
-                    MasterGun.CallEventShotEnemy(hit.point, hit.transform);
+                    MasterGun.CallEventShotEnemy(hit, hit.transform);
+                }
+                else
+                {
+                    MasterGun.CallEventShotDefult(hit, hit.transform);
                 }
             }
 

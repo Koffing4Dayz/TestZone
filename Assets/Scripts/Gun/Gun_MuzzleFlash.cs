@@ -13,11 +13,13 @@ namespace Gun
         {
             Initialize();
             MasterGun.EventPlayerInput += PlayMuzzleFlash;
+            MasterGun.EventNpcInput += PlayMuzzleFlashNPC;
         }
 
         private void OnDisable()
         {
             MasterGun.EventPlayerInput -= PlayMuzzleFlash;
+            MasterGun.EventNpcInput -= PlayMuzzleFlashNPC;
         }
 
         private void Initialize()
@@ -26,6 +28,14 @@ namespace Gun
         }
 
         private void PlayMuzzleFlash()
+        {
+            if (MuzzleFlash != null)
+            {
+                MuzzleFlash.Play();
+            }
+        }
+
+        private void PlayMuzzleFlashNPC(float dummy)
         {
             if (MuzzleFlash != null)
             {

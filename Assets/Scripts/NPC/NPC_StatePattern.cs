@@ -107,6 +107,11 @@ namespace NPC
             AlertState = new NPCState_Alert(this);
             PursueState = new NPCState_Pursue(this);
             FleeState = new NPCState_Flee(this);
+            FollowState = new NPCState_Follow(this);
+            MeleeAttackState = new NPCState_MeleeAttack(this);
+            RangeAttackState = new NPCState_RangeAttack(this);
+            StruckState = new NPCState_Struck(this);
+            InvestigateHarmState = new NPCState_InvestigateHarm(this);
         }
 
         private void Initialize()

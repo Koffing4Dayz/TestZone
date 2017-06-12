@@ -28,19 +28,21 @@ namespace Gun
             MasterGun = GetComponent<Gun_Master>();
         }
 
-        private void DoDefultEffect(Vector3 hitPosition, Transform hitTransform)
+        private void DoDefultEffect(RaycastHit hitPosition, Transform hitTransform)
         {
             if (DefultEffect != null)
             {
-                Instantiate(DefultEffect, hitPosition, Quaternion.identity);
+                Quaternion quat = Quaternion.LookRotation(hitPosition.normal);
+                Instantiate(DefultEffect, hitPosition.point, quat);
             }
         }
 
-        private void DoEnemyEffect(Vector3 hitPosition, Transform hitTransform)
+        private void DoEnemyEffect(RaycastHit hitPosition, Transform hitTransform)
         {
             if (EnemyEffect != null)
             {
-                Instantiate(EnemyEffect, hitPosition, Quaternion.identity);
+                Quaternion quat = Quaternion.LookRotation(hitPosition.normal);
+                Instantiate(EnemyEffect, hitPosition.point, quat);
             }
         }
     }

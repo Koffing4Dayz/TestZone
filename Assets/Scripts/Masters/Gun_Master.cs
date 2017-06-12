@@ -16,12 +16,15 @@ namespace Gun
         public event GeneralEventHandler EventRequestGunReset;
         public event GeneralEventHandler EventToggleFireMode;
 
-        public delegate void GunHitEventHandler(Vector3 hitPosition, Transform hitTransform);
+        public delegate void GunHitEventHandler(RaycastHit hitPosition, Transform hitTransform);
         public event GunHitEventHandler EventShotDefult;
         public event GunHitEventHandler EventShotEnemy;
 
         public delegate void GunAmmoEventHandler(int currentAmmo, int carriedAmmo);
         public event GunAmmoEventHandler EventAmmoChanged;
+
+        public delegate void GunNpcEventHandler(float rnd);
+        public event GunNpcEventHandler EventNpcInput;
 
         //public delegate void GunCrosshairEventHandler(float spread);
         //public event GunCrosshairEventHandler EventSpreadCaptured;
@@ -66,7 +69,7 @@ namespace Gun
             }
         }
 
-        public void CallEventShotDefult(Vector3 hitPosition, Transform hitTransform)
+        public void CallEventShotDefult(RaycastHit hitPosition, Transform hitTransform)
         {
             if (EventShotDefult != null)
             {
@@ -74,7 +77,7 @@ namespace Gun
             }
         }
 
-        public void CallEventShotEnemy(Vector3 hitPosition, Transform hitTransform)
+        public void CallEventShotEnemy(RaycastHit hitPosition, Transform hitTransform)
         {
             if (EventShotEnemy != null)
             {
@@ -87,6 +90,14 @@ namespace Gun
             if (EventAmmoChanged != null)
             {
                 EventAmmoChanged(currentAmmo, carriedAmmo);
+            }
+        }
+
+        public void CallEventNpcInput(float rand)
+        {
+            if (EventNpcInput != null)
+            {
+                EventNpcInput(rand);
             }
         }
 

@@ -14,9 +14,12 @@ namespace Item
         public delegate void PickupActionEventHandler(Transform item);
         public event PickupActionEventHandler EventPickupAction;
 
-        void OnEnable()
+        private bool isOnPlayer;
+
+        void Start()
         {
             Initialize();
+            CheckIfIsOnPlayer();
         }
 
         public void CallEventObjectThrow()
@@ -25,8 +28,13 @@ namespace Item
             {
                 EventObjectThrow();
             }
-            MasterPlayer.CallEventHandsEmpty();
-            MasterPlayer.CallEventInventoryChanged();
+
+            if (isOnPlayer)
+            {
+                MasterPlayer.CallEventHandsEmpty();
+                MasterPlayer.CallEventInventoryChanged();
+                CheckIfIsOnPlayer();
+            }
         }
 
         public void CallEventObjectPickup()
@@ -35,7 +43,12 @@ namespace Item
             {
                 EventObjectPickup();
             }
-            MasterPlayer.CallEventInventoryChanged();
+
+            if (!isOnPlayer)
+            {
+                MasterPlayer.CallEventInventoryChanged();
+                CheckIfIsOnPlayer();
+            }
         }
 
         public void CallEventPickupAction(Transform item)
@@ -51,6 +64,18 @@ namespace Item
             if(GameManager.GameManager_References.Instance.Player != null)
             {
                 MasterPlayer = GameManager.GameManager_References.Instance.MasterPlayer;
+            }
+        }
+
+        private void CheckIfIsOnPlayer()
+        {
+            if (transform.root == GameManager.GameManager_References.Instance.Player.transform)
+            {
+                isOnPlayer = true;
+            }
+            else
+            {
+                isOnPlayer = false;
             }
         }
     }

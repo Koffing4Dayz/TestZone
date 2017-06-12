@@ -25,12 +25,15 @@ namespace Gun
             MasterGun = GetComponent<Gun_Master>();
         }
 
-        void ApplyDamage(Vector3 hitPosition, Transform hitTransform)
+        void ApplyDamage(RaycastHit hitPosition, Transform hitTransform)
         {
-            if (hitTransform.GetComponent<Enemy.Enemy_TakeDamage>() != null)
-            {
-                hitTransform.GetComponent<Enemy.Enemy_TakeDamage>().ProcessDamage(Damage);
-            }
+            //if (hitTransform.GetComponent<Enemy.Enemy_TakeDamage>() != null)
+            //{
+            //    hitTransform.GetComponent<Enemy.Enemy_TakeDamage>().ProcessDamage(Damage);
+            //}
+            hitTransform.SendMessage("ProcessDamage", Damage, SendMessageOptions.DontRequireReceiver);
+            hitTransform.SendMessage("CallEventPlayerHealthDeduction", transform.root, SendMessageOptions.DontRequireReceiver);
+            hitTransform.root.SendMessage("SetMyAttacker", transform.root, SendMessageOptions.DontRequireReceiver);
         }
     }
 }
