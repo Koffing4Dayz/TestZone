@@ -21,16 +21,14 @@ namespace NPC
         }
         public void ToPatrolState()
         {
+            npc.isMeleeAttacking = false;
             KeepWalking();
             npc.CurrentState = npc.PatrolState;
         }
-        public void ToAlertState()
-        {
-            KeepWalking();
-            npc.CurrentState = npc.AlertState;
-        }
+        public void ToAlertState() { }
         public void ToPursueState()
         {
+            npc.isMeleeAttacking = false;
             KeepWalking();
             npc.CurrentState = npc.PursueState;
         }
@@ -39,7 +37,7 @@ namespace NPC
 
         private void Look()
         {
-            if (npc.TargetPursue != null)
+            if (npc.TargetPursue == null)
             {
                 ToPatrolState();
                 return;
@@ -93,8 +91,8 @@ namespace NPC
             }
             else
             {
-                //ToPatrolState();
-                ToPursueState();
+                ToPatrolState();
+                //ToPursueState();
             }
         }
 

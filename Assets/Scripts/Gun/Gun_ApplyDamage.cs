@@ -32,8 +32,10 @@ namespace Gun
             //    hitTransform.GetComponent<Enemy.Enemy_TakeDamage>().ProcessDamage(Damage);
             //}
             hitTransform.SendMessage("ProcessDamage", Damage, SendMessageOptions.DontRequireReceiver);
-            hitTransform.SendMessage("CallEventPlayerHealthDeduction", transform.root, SendMessageOptions.DontRequireReceiver);
+            hitTransform.SendMessage("CallEventPlayerHealthDeduction", Damage, SendMessageOptions.DontRequireReceiver);
             hitTransform.root.SendMessage("SetMyAttacker", transform.root, SendMessageOptions.DontRequireReceiver);
+
+            Debug.Log(transform.root.name);
         }
     }
 }

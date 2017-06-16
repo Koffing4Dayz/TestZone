@@ -29,9 +29,9 @@ namespace NPC
         public bool isMeleeAttacking;
 
         public Transform TargetFollow;
-        [HideInInspector]
+        //[HideInInspector]
         public Transform TargetPursue;
-        [HideInInspector]
+        //[HideInInspector]
         public Vector3 LocationOfInterest;
         [HideInInspector]
         public Vector3 TargetWander;
@@ -156,6 +156,8 @@ namespace NPC
             }
 
             CurrentState = StruckState;
+
+            isMeleeAttacking = false;
 
             MasterNPC.CallEventNpcStruckAnim();
 

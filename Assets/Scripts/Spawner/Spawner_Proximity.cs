@@ -16,6 +16,8 @@ namespace Spawner
         private Transform playerTransform;
         private Vector3 spawnPosition;
 
+        public Transform[] waypoints;
+
         private void Start()
         {
             Initialize();
@@ -51,7 +53,15 @@ namespace Spawner
             for (int i = 0; i < NumberToSpawn; ++i)
             {
                 spawnPosition = myTransform.position + Random.insideUnitSphere * SpawnRadius;
-                Instantiate(ObjectToSpawn, spawnPosition, myTransform.rotation);
+                GameObject go = Instantiate(ObjectToSpawn, spawnPosition, myTransform.rotation);
+
+                if (waypoints.Length > 0)
+                {
+                    if (go.GetComponent<NPC.NPC_StatePattern>() != null)
+                    {
+                        go.GetComponent<NPC.NPC_StatePattern>().Waypoints = waypoints;
+                    }
+                }
             }
         }
 

@@ -73,6 +73,7 @@ namespace NPC
         private void Pursue()
         {
             npc.MeshRendererFlag.material.color = Color.red;
+
             if (npc.myNavMeshAgent.enabled && npc.TargetPursue != null)
             {
                 npc.myNavMeshAgent.SetDestination(npc.TargetPursue.position);

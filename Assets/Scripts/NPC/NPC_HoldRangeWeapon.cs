@@ -37,8 +37,8 @@ namespace NPC
                 {
                     myAnimator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1);
                     myAnimator.SetIKRotationWeight(AvatarIKGoal.LeftHand, 1);
-                    myAnimator.SetIKPosition(AvatarIKGoal.LeftHand, rightHand.position);
-                    myAnimator.SetIKRotation(AvatarIKGoal.LeftHand, rightHand.rotation);
+                    myAnimator.SetIKPosition(AvatarIKGoal.LeftHand, leftHand.position);
+                    myAnimator.SetIKRotation(AvatarIKGoal.LeftHand, leftHand.rotation);
                 }
             }
         }

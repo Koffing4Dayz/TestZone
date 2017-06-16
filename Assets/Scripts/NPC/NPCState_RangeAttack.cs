@@ -64,7 +64,7 @@ namespace NPC
 
         private void Look()
         {
-            if (npc.TargetPursue != null)
+            if (npc.TargetPursue == null)
             {
                 ToPatrolState();
                 return;

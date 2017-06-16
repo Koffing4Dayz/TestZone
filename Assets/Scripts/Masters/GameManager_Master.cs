@@ -52,6 +52,8 @@ namespace GameManager
         {
             if (EventGameOver != null)
             {
+                if (isGameOver) return;
+
                 isGameOver = true;
                 EventGameOver();
             }

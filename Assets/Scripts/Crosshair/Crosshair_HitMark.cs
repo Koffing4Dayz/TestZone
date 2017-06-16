@@ -28,13 +28,13 @@ namespace Crosshair
             playTransform = MasterCrosshair.myGun.transform;
         }
 
-        private void ActivateHitMark(Vector3 hitPosition, Transform hitTransform)
+        private void ActivateHitMark(RaycastHit hitPosition, Transform hitTransform)
         {
-            Enemy.Enemy_Health hitHealth = hitTransform.root.GetComponent<Enemy.Enemy_Health>();
+            NPC.NPC_Health hitHealth = hitTransform.root.GetComponent<NPC.NPC_Health>();
 
             if (hitHealth != null)
             {
-                if (hitHealth.Health <= 0)
+                if (hitHealth.CurrentHealth <= 0)
                 {
                     return;
                 }

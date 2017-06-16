@@ -37,6 +37,11 @@ namespace Gun
             {
                 StartCoroutine(UpdateAmmoUIWhenEnabling());
             }
+
+            if (MasterGun.IsReloading)
+            {
+                ResetGunReloading();
+            }
         }
 
         private void OnDisable()
