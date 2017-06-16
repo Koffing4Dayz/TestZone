@@ -20,5 +20,10 @@ namespace MainMenu
             Application.Quit();
 #endif
         }
+
+        public void AiDemo()
+        {
+            SceneManager.LoadScene(2);
+        }
     }
 }

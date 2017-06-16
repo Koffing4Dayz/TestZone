@@ -6,6 +6,9 @@ namespace GameManager
 {
     public class GameManager_Debug : MonoBehaviour
     {
+        public GameObject alpha;
+        public GameObject beta;
+
         private void Update()
         {
             if (Input.GetKeyDown(KeyCode.F1))
@@ -40,6 +43,12 @@ namespace GameManager
                 {
                     item.CallEventEnemyHealthIncrease(20);
                 }
+            }
+
+            if (Input.GetKeyDown(KeyCode.F6))
+            {
+                alpha.SetActive(true);
+                beta.SetActive(true);
             }
         }
     }
